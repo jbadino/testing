@@ -1,0 +1,61 @@
+
+entity FoodClient {
+    firstName String required minlength(2) maxlength(128),
+    lastName String required minlength(2) maxlength(128),
+    username String required minlength(2) maxlength(128),
+    password String required minlength(2) maxlength(128),
+    email String required minlength(2) maxlength(128)
+}
+
+
+entity Provider {
+    companyName String required minlength(2) maxlength(128),
+    responsiblePerson String required minlength(2),
+    email String required minlength(2) maxlength(128),
+    phone String required minlength(2) maxlength(128),  
+    anotherContact String,
+    website String
+}
+
+
+entity MenuItem {
+    name String required minlength(2) maxlength(128),
+    description String
+}
+
+
+entity Menu {
+    weekDay LocalDate required,
+    description String,
+    promotion String
+}
+
+
+entity MenuOrder {
+    description String
+}
+
+
+relationship OneToMany {
+    Provider{menues} to Menu
+}
+
+relationship OneToMany {
+    Menu{menuItems} to MenuItem
+}
+
+relationship ManyToMany {
+    MenuOrder{menues} to Menu{menuOrders}
+}
+
+relationship ManyToMany {
+    MenuOrder{clients} to FoodClient{menuOrders}
+}
+
+relationship OneToOne {
+    FoodClient{user} to User
+}
+
+paginate Provider, Menu, MenuItem, MenuOrder, FoodClient with Pagination
+
+
